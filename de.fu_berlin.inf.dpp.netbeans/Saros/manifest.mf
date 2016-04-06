@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: Saros
+OpenIDE-Module-Localizing-Bundle: de/fu_berlin/inf/dpp/netbeans/Bundle.properties
+
+

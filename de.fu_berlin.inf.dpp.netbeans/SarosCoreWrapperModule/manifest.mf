@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: de.fu_berlin.inf.netbeans.wrapper
+OpenIDE-Module-Localizing-Bundle: de/fu_berlin/inf/netbeans/wrapper/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

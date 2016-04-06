@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See harness/README in the NetBeans platform -->
+<!-- for some information on what you could do (e.g. targets to override). -->
+<!-- If you delete this file and reopen the project it will be recreated. -->
+<project name="de.fu_berlin.inf.netbeans.wrapper" default="netbeans" basedir=".">
+    <description>Builds, tests, and runs the project de.fu_berlin.inf.netbeans.wrapper.</description>
+    <import file="nbproject/build-impl.xml"/>
+    
+    <property name="original.project.dir" value="../../de.fu_berlin.inf.dpp.core"/>
+    <property name="original.project.jar" value="${original.project.dir}/dist/SarosCore.jar"/>
+    
+    <target name="release"> 
+        <echo message="Building ${original.project.dir}"/>
+        <antcall target="rename-build-file-for-netbeans">
+        </antcall>            
+        <ant dir="${original.project.dir}" usenativebasedir="true" target="jar" inheritall="false" inheritrefs="false"/>
+        <echo message="Done building ${original.project.dir}"/>
+        <copy todir="${cluster}/modules/ext" file="${original.project.jar}" />
+        <antcall target="rename-build-file-for-eclipse">
+        </antcall>  
+    </target>
+    <target name="clean" depends="projectized-common.clean">
+        <echo message="Cleaning ${original.project.dir}"/>
+        <antcall target="rename-build-file-for-netbeans">
+        </antcall>   
+        <ant dir="${original.project.dir}" usenativebasedir="true" target="clean" inheritall="false" inheritrefs="false" />
+        <antcall target="rename-build-file-for-eclipse">
+        </antcall>  
+        <echo message="Done cleaning ${original.project.dir}"/>
+    </target>
+    <target name="netbeans-extra" depends="init">
+        <copy todir="${cluster}/modules/ext">
+            <fileset dir="../../de.fu_berlin.inf.dpp.core/lib">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="../../de.fu_berlin.inf.dpp.core/test/lib">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>        
+    </target> 
+    <target name="check-build-file">
+       <available file="${original.project.dir}/build_netbeans.xml" property="eclipsebuildfile.present"/>
+       <available file="${original.project.dir}/build_eclipse.xml" property="netbeansbuildfile.present"/>
+    </target>
+    <target name="rename-build-file-for-netbeans" depends="check-build-file" if="eclipsebuildfile.present">
+        <move file="${original.project.dir}/build.xml" tofile="${original.project.dir}/build_eclipse.xml"/>
+        <move file="${original.project.dir}/build_netbeans.xml" tofile="${original.project.dir}/build.xml"/>
+    </target>
+    <target name="rename-build-file-for-eclipse" depends="check-build-file" if="netbeansbuildfile.present">
+        <move file="${original.project.dir}/build.xml" tofile="${original.project.dir}/build_netbeans.xml"/>
+        <move file="${original.project.dir}/build_eclipse.xml" tofile="${original.project.dir}/build.xml"/>
+    </target>
+</project>
